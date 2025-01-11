@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package review;
+
+option go_package = "/proto";
+
+service ReviewService {
+    rpc AddReview(AddReviewRequest) returns (AddReviewResponse);
+    rpc GetReviewByBook(GetReviewByBookRequest) returns (GetReviewByBookResponse);
+}
+
+message AddReviewRequest {
+    string book_id = 1;
+    string user_id = 2;
+    string review = 3;
+    int32 rating = 4;
+}
+
+message AddReviewResponse {
+    string message = 1;
+}
+
+message GetReviewByBookRequest {
+    string book_id = 1;
+}
+
+message GetReviewByBookResponse {
+    repeated Review reviews = 1;
+}
+
+message Review {
+    string book_id = 1;
+    string user_id = 2;
+    string review = 3;
+    int32 rating = 4;
+    string created_at = 5;
+}
