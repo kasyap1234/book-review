@@ -23,8 +23,10 @@ func (c*Client)Login(username, password string)(string,error){
 	if err !=nil {
 		return "",err
 	}
-	return resp.Token,nil 
+	c.token=resp.Token
+	return resp.Token,nil
 }
+
 
 
 

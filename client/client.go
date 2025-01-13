@@ -15,6 +15,7 @@ type Client struct {
 	bookConn     *grpc.ClientConn
 	userConn     *grpc.ClientConn
 	reviewConn   *grpc.ClientConn
+	token string 
 }
 
 func NewClient() (*Client, error) {
