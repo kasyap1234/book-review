@@ -9,12 +9,14 @@ import (
 	"google.golang.org/grpc"
 )
 
-func main() {
+func StartServer1() {
 	listener, err := net.Listen("tcp", ":50051")
 if err !=nil {
 	log.Fatalln("unable to listen to port"); 
 
 }
+log.Println("server started on port :50051")
+
 grpcServer :=grpc.NewServer()
 pb.RegisterBookServiceServer(grpcServer,&server{})
 if err :=grpcServer.Serve(listener); err !=nil {

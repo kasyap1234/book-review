@@ -4,7 +4,7 @@ import (
 	"context"
 	pb "kasyap1234/book-review-recommendation/proto"
 
-	"google.golang.org/grpc/internal/metadata"
+	"google.golang.org/grpc/metadata"
 )
 
 func (c *Client) AddReview(book_id, review string, rating int) (*pb.AddReviewResponse, error) {
