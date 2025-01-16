@@ -6,8 +6,11 @@ import (
 
 )
 
-func(c*Client)Register(username, password string)(*pb.UserResponse,error){
+
+
+func(c*Client)Register(name,username, password string)(*pb.UserResponse,error){
 	req  :=&pb.UserRequest{
+		Name: name,
 		Username: username,
 		Password: password,
 	}

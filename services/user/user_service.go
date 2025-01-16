@@ -14,21 +14,25 @@ var secretKey = []byte("secret-key")
 
 type Claims struct {
 	userID int 
-
 	jwt.Claims
 }
-
 
 type Server struct {
 	pb.UnimplementedUserServiceServer
 	db *gorm.DB
 }
 
+// New constructor function
+func NewUserServer(db *gorm.DB) *Server {
+    return &Server{
+        db: db,
+    }
+}
+
 func generateToken(userID int ) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userID": userID,
-		
-		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+		"exp":    time.Now().Add(time.Hour * 24).Unix(),
 	})
 	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
@@ -36,6 +40,7 @@ func generateToken(userID int ) (string, error) {
 	}
 	return tokenString, nil
 }
+
 func VerifyToken(tokenString string) (*Claims,error) {
 	claims :=&Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
@@ -71,16 +76,12 @@ func (s *Server) LoginUser(ctx context.Context, req *pb.LoginRequest) (*pb.Token
 		return nil, err
 	}
 	
-	
 	tokenString, err := generateToken(int(user.ID))
 	
 	if err !=nil {
-		fmt.Println("unable to generate jwt token"); 
+		fmt.Println("unable to generate jwt token")
 	}
-return &pb.TokenResponse{
-	Token: tokenString,
-},nil 
-
+    return &pb.TokenResponse{
+        Token: tokenString,
+    }, nil 
 }
-
-

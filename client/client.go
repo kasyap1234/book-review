@@ -23,7 +23,7 @@ func NewClient() (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	userConn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
+	userConn, err := grpc.Dial("localhost:50053", grpc.WithInsecure())
 	if err != nil {
 		return nil, err
 	}

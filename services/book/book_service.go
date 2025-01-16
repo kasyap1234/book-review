@@ -14,6 +14,7 @@ type server struct {
 	db *gorm.DB
 }
 
+
 func (s *server) GetBooks(ctx context.Context, req *pb.GetBooksRequest) (*pb.GetBooksResponse, error) {
 	userId, ok := ctx.Value("userID").(int)
 	if !ok {

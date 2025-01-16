@@ -23,6 +23,12 @@ type Review struct {
 	Rating int `gorm:"not null"`
 }
 
+func NewUserServer(db *gorm.DB) *server {
+    return &server{
+        db: db,
+    }
+}
+
 func (r *server) AddReview(ctx context.Context, req *rb.AddReviewRequest) (*rb.AddReviewResponse, error) {
 	userId, ok := ctx.Value("userID").(string)
 	if !ok || userId != req.UserId {
