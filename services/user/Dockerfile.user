@@ -24,7 +24,7 @@ WORKDIR /app
 COPY --from=builder /app/user-service .
 
 # Expose the necessary port (e.g., for gRPC)
-EXPOSE 50053
+EXPOSE 50052
 
 # Run the service when the container starts
 CMD ["./user-service"]

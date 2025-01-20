@@ -25,4 +25,4 @@ require (
 	google.golang.org/protobuf v1.36.3 // indirect
 )
 
-replace github.com/kasyap1234/book-review/proto => ../../proto
+
