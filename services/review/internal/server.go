@@ -1,4 +1,5 @@
-package review
+package reviewservice 
+
 
 import (
 	pb "github.com/kasyap1234/book-review/proto"
