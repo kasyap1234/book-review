@@ -3,7 +3,7 @@ module github.com/kasyap1234/book-review/services/book
 go 1.23.4
 
 require (
-	github.com/kasyap1234/book-review/proto v0.0.0-00010101000000-000000000000
+	github.com/kasyap1234/book-review v0.0.0-20250120105109-33445c1e3210
 	google.golang.org/grpc v1.69.4
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12
