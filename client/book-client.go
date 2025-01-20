@@ -1,11 +1,12 @@
 package client
 
 import (
-	"context"
-	pb "kasyap1234/book-review-recommendation/proto"
-
+	pb "github.com/kasyap1234/book-review/proto"
 	"google.golang.org/grpc/metadata"
+
+	"context"
 )
+
 
 func (c *Client) GetBooks() (*pb.GetBooksResponse, error) {
 	ctx := metadata.NewOutgoingContext(context.Background(),

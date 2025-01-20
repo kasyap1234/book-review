@@ -1,9 +1,10 @@
-package user
+package userservice 
+
 
 import (
 	"context"
 	"fmt"
-	pb "kasyap1234/book-review-recommendation/proto"
+	pb "github.com/kasyap1234/book-review/proto"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"

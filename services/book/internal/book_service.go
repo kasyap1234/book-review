@@ -1,4 +1,4 @@
-package service 
+package bookservice 
 
 import (
 	"context"

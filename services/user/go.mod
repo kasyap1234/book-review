@@ -4,6 +4,7 @@ go 1.23.4
 
 require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/kasyap1234/book-review v0.0.0-20250120071036-c0a658732dee
 	google.golang.org/grpc v1.69.4
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12
@@ -22,5 +23,7 @@ require (
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/text v0.19.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241015192408-796eee8c2d53 // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
+	google.golang.org/protobuf v1.36.3 // indirect
 )
+
+replace github.com/kasyap1234/book-review/proto => ../../proto

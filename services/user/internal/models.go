@@ -1,4 +1,6 @@
-package user
+package userservice 
+
+
 
 
 type User struct {

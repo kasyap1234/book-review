@@ -1,12 +1,30 @@
+# Stage 1: Builder Stage
 FROM golang:1.23-alpine AS builder
+
+# Set the working directory to /app inside the container
 WORKDIR /app
+
+# Copy go.mod and go.sum to the container and download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o review-service 
 
+# Copy the entire project directory into the container (including proto folder)
+COPY . .
+
+# Build the Go application with CGO disabled and target Linux
+RUN CGO_ENABLED=0 GOOS=linux go build -o review-service .
+
+# Stage 2: Final Stage
 FROM alpine:latest
+
+# Set the working directory to /app inside the final container
 WORKDIR /app
+
+# Copy the compiled binary from the builder stage
 COPY --from=builder /app/review-service .
+
+# Expose the necessary port (e.g., for gRPC)
 EXPOSE 50053
+
+# Run the service when the container starts
 CMD ["./review-service"]

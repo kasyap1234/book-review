@@ -1,4 +1,4 @@
-package service 
+package bookservice 
 
 import (
 	pb "github.com/kasyap1234/book-review/proto"
