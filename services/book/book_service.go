@@ -2,8 +2,8 @@ package book
 
 import (
 	"context"
-	pb "kasyap1234/book-review-recommendation/proto"
-
+	
+pb "github.com/kasyap1234/book-review/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"

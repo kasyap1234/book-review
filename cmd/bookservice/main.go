@@ -2,7 +2,7 @@ package main
 
 import (
 	
-	"kasyap1234/book-review-recommendation/services/book"
+	"github.com/kasyap1234/book-review/services/book"
 	"fmt"
 )
 func main(){

@@ -1,6 +1,12 @@
-FROM golang:1.22-alpine
-WORKDIR /app 
-COPY . . 
-RUN  go build -o  review-service
-EXPOSE 50052
+FROM golang:1.23-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o review-service 
+
+FROM alpine:latest
+WORKDIR /app
+COPY --from=builder /app/review-service .
+EXPOSE 50053
 CMD ["./review-service"]

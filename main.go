@@ -1,7 +1,7 @@
 package main
 
 import (
-	"kasyap1234/book-review-recommendation/client"
+	"github.com/kasyap1234/book-review/client"
 	"log"
 )
 
