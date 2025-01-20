@@ -3,7 +3,7 @@ package review
 import (
 	"context"
 	"errors"
-	rb "kasyap1234/book-review-recommendation/proto"
+	rb "github.com/kasyap1234/book-review/proto"
 
 	"strconv"
 
