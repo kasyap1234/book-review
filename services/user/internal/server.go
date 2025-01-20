@@ -16,7 +16,8 @@ import (
 
 func StartServer3() {
 	 // Initialize database connection first
-	 dsn :="host=localhost user=pg password=pass dbname=crud port=5432 sslmode=disable"
+     dsn := "host=database user=pg password=pass dbname=crud port=5432 sslmode=disable"
+
 
 
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
