@@ -1,3 +1,4 @@
+---
 services:
   database:
     container_name: database
@@ -8,82 +9,77 @@ services:
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=crud
     ports:
-      - 5432:5432
+      - '5432:5432'
     volumes:
-      - db:/var/lib/postgresql/data 
-    networks: 
+      - db:/var/lib/postgresql/data
+    networks:
       - microservices-network
-  prometheus: 
-    image: prom/prometheus:latest 
+  prometheus:
+    image: prom/prometheus:latest
     container_name: prometheus
-    ports: 
-      - "9090:9090"
-    volumes: 
+    ports:
+      - '9090:9090'
+    volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
-    command: 
+    command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
-    networks: 
-      - microservices-network 
-  grafana: 
-    image: grafana/grafana:latest 
-    container_name: grafana 
-    ports: 
-      - "3000:3000"
-    volumes: 
+    networks:
+      - microservices-network
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    volumes:
       - grafana_data:/var/lib/grafana
-    networks: 
-      - microservices-network 
-    depends_on: 
-      - prometheus 
+    networks:
+      - microservices-network
+    depends_on:
+      - prometheus
   book-service:
     build:
       context: ./services/book
-      dockerfile: Dockerfile.book  # Ensure this file exists in ./services/book
+      dockerfile: Dockerfile.book
     ports:
-      - "50051:50051"
+      - '50051:50051'
     networks:
       - microservices-network
-    environment: 
+    environment:
       - METRICS_PORT=2111
-    expose: 
+    expose:
       - 2111
   user-service:
     build:
       context: ./services/user
-      dockerfile: Dockerfile.user  # Ensure this file exists in ./services/user
+      dockerfile: Dockerfile.user
     ports:
-      - "50052:50052"
+      - '50052:50052'
     networks:
       - microservices-network
-    environment: 
+    environment:
       - METRICS_PORT=2112
-    expose: 
+    expose:
       - 2112
-
   review-service:
     build:
       context: ./services/review
-      dockerfile: Dockerfile.review  # Ensure this file exists in ./services/review
+      dockerfile: Dockerfile.review
     ports:
-      - "50053:50053"
+      - '50053:50053'
     networks:
       - microservices-network
-    environment: 
+    environment:
       - METRICS_PORT=2113
-    expose: 
-      - 2113 
-    
-
+    expose:
+      - 2113
 networks:
   microservices-network:
     driver: bridge
-
 volumes:
-  db:
-  prometheus_data: 
-  grafana_data: 
-
+  db: null
+  prometheus_data: null
+  grafana_data: null
