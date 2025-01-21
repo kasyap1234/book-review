@@ -13,7 +13,32 @@ services:
       - db:/var/lib/postgresql/data 
     networks: 
       - microservices-network
-
+  prometheus: 
+    image: prom/prometheus:latest 
+    container_name: prometheus
+    ports: 
+      - "9090:9090"
+    volumes: 
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command: 
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks: 
+      - microservices-network 
+  grafana: 
+    image: grafana/grafana:latest 
+    container_name: grafana 
+    ports: 
+      - "3000:3000"
+    volumes: 
+      - grafana_data:/var/lib/grafana
+    networks: 
+      - microservices-network 
+    depends_on: 
+      - prometheus 
   book-service:
     build:
       context: ./services/book
@@ -22,7 +47,10 @@ services:
       - "50051:50051"
     networks:
       - microservices-network
-
+    environment: 
+      - METRICS_PORT=2111
+    expose: 
+      - 2111
   user-service:
     build:
       context: ./services/user
@@ -31,6 +59,10 @@ services:
       - "50052:50052"
     networks:
       - microservices-network
+    environment: 
+      - METRICS_PORT=2112
+    expose: 
+      - 2112
 
   review-service:
     build:
@@ -40,7 +72,11 @@ services:
       - "50053:50053"
     networks:
       - microservices-network
-
+    environment: 
+      - METRICS_PORT=2113
+    expose: 
+      - 2113 
+    
 
 networks:
   microservices-network:
