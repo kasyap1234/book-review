@@ -1,4 +1,3 @@
----
 services:
   database:
     container_name: database
@@ -14,13 +13,14 @@ services:
       - db:/var/lib/postgresql/data
     networks:
       - microservices-network
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - '9090:9090'
     volumes:
-      - ./prometheus:/etc/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -29,6 +29,9 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
     networks:
       - microservices-network
+    depends_on:
+      - database
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -40,46 +43,82 @@ services:
       - microservices-network
     depends_on:
       - prometheus
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - '9100:9100'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($|/)'
+    networks:
+      - microservices-network
+    depends_on:
+      - prometheus
+
   book-service:
     build:
       context: ./services/book
       dockerfile: Dockerfile.book
     ports:
       - '50051:50051'
+      - '2111:2111'
     networks:
       - microservices-network
     environment:
       - METRICS_PORT=2111
     expose:
       - 2111
+    depends_on:
+      - prometheus
+      - database
+
   user-service:
     build:
       context: ./services/user
       dockerfile: Dockerfile.user
     ports:
       - '50052:50052'
+      - '2112:2112'
     networks:
       - microservices-network
     environment:
       - METRICS_PORT=2112
     expose:
       - 2112
+    depends_on:
+      - prometheus
+      - database
+
   review-service:
     build:
       context: ./services/review
       dockerfile: Dockerfile.review
     ports:
       - '50053:50053'
+      - '2113:2113'
     networks:
       - microservices-network
     environment:
       - METRICS_PORT=2113
     expose:
       - 2113
+    depends_on:
+      - prometheus
+      - database
+
 networks:
   microservices-network:
     driver: bridge
+
 volumes:
-  db: null
-  prometheus_data: null
-  grafana_data: null
+  db:
+  prometheus_data:
+  grafana_data:
